@@ -64,13 +64,13 @@ func TestValidateQuoteInput(t *testing.T) {
 			err := ValidateQuoteInput(tt.input)
 			if tt.expectedError != "" {
 				if err == nil {
-					t.Errorf("Expected error, got nil")
+					t.Errorf("expected error, got nil")
 				} else if err.Error() != tt.expectedError {
-					t.Errorf("Expected error message '%v', got %v", tt.expectedError, err)
+					t.Errorf("expected error message '%v', got %v", tt.expectedError, err)
 				}
 			} else {
 				if err != nil {
-					t.Errorf("Expected no error, got %v", err)
+					t.Errorf("expected no error, got %v", err)
 				}
 			}
 		})
@@ -140,16 +140,16 @@ func TestValidateCarriersFromAPIResponse(t *testing.T) {
 			carriers, err := ValidateCarriersFromAPIResponse(tt.apiResponse)
 			if tt.expectedError != "" {
 				if err == nil {
-					t.Errorf("Expected error '%v', got nil", tt.expectedError)
+					t.Errorf("expected error '%v', got nil", tt.expectedError)
 				} else if err.Error() != tt.expectedError {
-					t.Errorf("Expected error message '%v', got '%v'", tt.expectedError, err.Error())
+					t.Errorf("expected error message '%v', got '%v'", tt.expectedError, err.Error())
 				}
 			} else {
 				if err != nil {
-					t.Errorf("Expected no error, got '%v'", err)
+					t.Errorf("expected no error, got '%v'", err)
 				}
 				if len(carriers) != tt.expectedLen {
-					t.Errorf("Expected carriers length %d, got %d", tt.expectedLen, len(carriers))
+					t.Errorf("expected carriers length %d, got %d", tt.expectedLen, len(carriers))
 				}
 			}
 		})
@@ -206,13 +206,13 @@ func Test_validateDispatcher(t *testing.T) {
 			err := validateDispatcher(tt.input)
 			if tt.expectedError != "" {
 				if err == nil {
-					t.Errorf("Expected error, got nil")
+					t.Errorf("expected error, got nil")
 				} else if err.Error() != tt.expectedError {
-					t.Errorf("Expected error message '%v', got %v", tt.expectedError, err)
+					t.Errorf("expected error message '%v', got %v", tt.expectedError, err)
 				}
 			} else {
 				if err != nil {
-					t.Errorf("Expected no error, got %v", err)
+					t.Errorf("expected no error, got %v", err)
 				}
 			}
 		})
@@ -267,13 +267,13 @@ func Test_validateRecipient(t *testing.T) {
 			err := validateRecipient(tt.input)
 			if tt.expectedError != "" {
 				if err == nil {
-					t.Errorf("Expected error, got nil")
+					t.Errorf("expected error, got nil")
 				} else if err.Error() != tt.expectedError {
-					t.Errorf("Expected error message '%v', got %v", tt.expectedError, err)
+					t.Errorf("expected error message '%v', got %v", tt.expectedError, err)
 				}
 			} else {
 				if err != nil {
-					t.Errorf("Expected no error, got %v", err)
+					t.Errorf("expected no error, got %v", err)
 				}
 			}
 		})
@@ -310,13 +310,13 @@ func Test_validateShipper(t *testing.T) {
 			err := validateShipper(tt.input)
 			if tt.expectedError != "" {
 				if err == nil {
-					t.Errorf("Expected error, got nil")
+					t.Errorf("expected error, got nil")
 				} else if err.Error() != tt.expectedError {
-					t.Errorf("Expected error message '%v', got %v", tt.expectedError, err)
+					t.Errorf("expected error message '%v', got %v", tt.expectedError, err)
 				}
 			} else {
 				if err != nil {
-					t.Errorf("Expected no error, got %v", err)
+					t.Errorf("expected no error, got %v", err)
 				}
 			}
 		})
@@ -361,13 +361,13 @@ func Test_validateVolume(t *testing.T) {
 			err := validateVolume(tt.input)
 			if tt.expectedError != "" {
 				if err == nil {
-					t.Errorf("Expected error, got nil")
+					t.Errorf("expected error, got nil")
 				} else if err.Error() != tt.expectedError {
-					t.Errorf("Expected error message '%v', got %v", tt.expectedError, err)
+					t.Errorf("expected error message '%v', got %v", tt.expectedError, err)
 				}
 			} else {
 				if err != nil {
-					t.Errorf("Expected no error, got %v", err)
+					t.Errorf("expected no error, got %v", err)
 				}
 			}
 		})

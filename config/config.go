@@ -17,7 +17,7 @@ var Config struct {
 
 func LoadConfig() {
 	if err := godotenv.Load(); err != nil {
-		logrus.Fatalf("Error loading .env file: %s", err.Error())
+		logrus.Fatalf("error loading .env file: %s", err.Error())
 	}
 
 	Config.DBUser = os.Getenv("DB_USER")

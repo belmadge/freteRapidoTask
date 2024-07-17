@@ -3,7 +3,7 @@
 ### Running the application
 1. Clone the repository:
 ```sh
-  git clone https://github.com/belmadge/freteRapido.git
+  git clone https://github.com/belmadge/freteRapidoTask.git
 ```
 
 2. Create a `.env` file:
@@ -18,4 +18,5 @@
 ```sh
   docker-compose up --build
 ```
-4. The API will be accessible at `http://localhost:8080`
+
+4. To see the API documentation access the directory "docs"

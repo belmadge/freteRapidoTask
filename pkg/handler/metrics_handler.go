@@ -19,22 +19,22 @@ func GetMetricsHandler(c *gin.Context) {
 
 	lastQuotes, err := strconv.Atoi(lastQuotesParam)
 	if err != nil || lastQuotes <= 0 {
-		logrus.Warn("Invalid last_quotes parameter, using default value ", DefaultLastQuotes)
+		logrus.Warn("invalid last_quotes parameter, using default value ", DefaultLastQuotes)
 		lastQuotes = DefaultLastQuotes
 	}
 
 	var quotes []models.Quote
 	result := db.DB.Preload("Carrier").Order("created_at desc").Limit(lastQuotes).Find(&quotes)
 	if result.Error != nil {
-		logrus.Error("Error fetching quotes: ", result.Error)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching quotes"})
+		logrus.Error("error fetching quotes: ", result.Error)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "error fetching quotes"})
 		return
 	}
 
 	metrics, err := utils.CalculateMetrics(quotes)
 	if err != nil {
-		logrus.Error("Failed to calculate metrics: ", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to calculate metrics"})
+		logrus.Error("failed to calculate metrics: ", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to calculate metrics"})
 		return
 	}
 

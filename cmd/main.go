@@ -18,6 +18,6 @@ func main() {
 	r.GET("/metrics", handler.GetMetricsHandler)
 
 	if err := r.Run(":8080"); err != nil {
-		logrus.Fatalf("Failed to start server: %s", err.Error())
+		logrus.Fatalf("failed to start server: %s", err.Error())
 	}
 }

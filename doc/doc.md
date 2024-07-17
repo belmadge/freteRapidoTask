@@ -96,13 +96,13 @@
       "average_price": 20.99
     }
   },
-  "cheapest_freight": {
+  "cheapest_quote": {
     "name": "EXPRESSO FR",
     "service": "Rodoviário",
     "deadline": 3,
     "price": 17
   },
-  "most_expensive_freight": {
+  "most_expensive_quote": {
     "name": "Correios",
     "service": "SEDEX",
     "deadline": 1,

@@ -25,11 +25,11 @@ func TestCalculateMetrics(t *testing.T) {
 
 		metrics, err := CalculateMetrics(quotes)
 		if err != nil {
-			t.Fatalf("Expected no error, got %v", err)
+			t.Fatalf("expected no error, got %v", err)
 		}
 
 		if len(metrics) == 0 {
-			t.Errorf("Expected metrics to be calculated, got empty map")
+			t.Errorf("expected metrics to be calculated, got empty map")
 		}
 	})
 
@@ -38,7 +38,7 @@ func TestCalculateMetrics(t *testing.T) {
 
 		_, err := CalculateMetrics(quotes)
 		if err == nil {
-			t.Errorf("Expected error, got nil")
+			t.Errorf("expected error, got nil")
 		}
 	})
 
@@ -54,14 +54,16 @@ func TestCalculateMetrics(t *testing.T) {
 
 		metrics, err := CalculateMetrics(quotes)
 		if err != nil {
-			t.Fatalf("Expected no error, got %v", err)
+			t.Fatalf("expected no error, got %v", err)
 		}
 
-		if metrics["cheapest_freight"].(*models.Carrier).Price != 1 {
-			t.Errorf("Expected cheapest freight to be 1, got %v", metrics["cheapest_freight"].(*models.Carrier).Price)
+		if metrics["cheapest_quote"].(*models.Carrier).Price != 1 {
+			t.Errorf("expected cheapest quote to be 1, got %v",
+				metrics["cheapest_quote"].(*models.Carrier).Price)
 		}
-		if metrics["most_expensive_freight"].(*models.Carrier).Price != 999999 {
-			t.Errorf("Expected most expensive freight to be 999999, got %v", metrics["most_expensive_freight"].(*models.Carrier).Price)
+		if metrics["most_expensive_quote"].(*models.Carrier).Price != 999999 {
+			t.Errorf("expected most expensive quote to be 999999,"+
+				" got %v", metrics["most_expensive_quote"].(*models.Carrier).Price)
 		}
 	})
 }

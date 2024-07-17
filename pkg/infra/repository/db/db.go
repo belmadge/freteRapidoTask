@@ -29,7 +29,7 @@ func setupDatabaseConnection() {
 	var err error
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		logrus.Error("Failed to connect to database:", err)
+		logrus.Error("failed to connect to database:", err)
 		return
 	}
 }
@@ -37,6 +37,6 @@ func setupDatabaseConnection() {
 func autoMigrateModels() {
 	err := DB.AutoMigrate(&models.Quote{}, &models.Carrier{})
 	if err != nil {
-		logrus.Error("Failed to auto-migrate database models:", err)
+		logrus.Error("failed to auto-migrate database models:", err)
 	}
 }

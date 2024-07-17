@@ -15,20 +15,20 @@ import (
 func CreateQuoteHandler(c *gin.Context) {
 	var input models.QuoteRequest
 	if err := c.ShouldBindJSON(&input); err != nil {
-		logrus.Error("Error binding JSON: ", err)
+		logrus.Error("error binding JSON: ", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	if err := utils.ValidateQuoteInput(input); err != nil {
-		logrus.Error("Error validating quote input: ", err)
+		logrus.Error("error validating quote input: ", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	quoteResponse, err := service.CreateQuote(input)
 	if err != nil {
-		logrus.Error("Error creating quote: ", err)
+		logrus.Error("error creating quote: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -39,8 +39,8 @@ func CreateQuoteHandler(c *gin.Context) {
 
 	result := db.DB.Create(&quote)
 	if result.Error != nil {
-		logrus.Error("Error saving quote to database: ", result.Error)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error saving quote to database"})
+		logrus.Error("error saving quote to database: ", result.Error)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "error saving quote to database"})
 		return
 	}
 

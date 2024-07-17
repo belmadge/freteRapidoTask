@@ -13,7 +13,7 @@ func CalculateMetrics(quotes []models.Quote) (map[string]interface{}, error) {
 	}
 
 	carrierMetrics := make(map[string]map[string]float64)
-	var cheapestFreight, mostExpensiveFreight *models.Carrier
+	var cheapestQuote, mostExpensiveQuote *models.Carrier
 
 	for _, quote := range quotes {
 		for _, carrier := range quote.Carrier {
@@ -26,11 +26,11 @@ func CalculateMetrics(quotes []models.Quote) (map[string]interface{}, error) {
 			carrierMetrics[carrier.Name]["count"]++
 			carrierMetrics[carrier.Name]["total_price"] += carrier.Price
 
-			if cheapestFreight == nil || carrier.Price < cheapestFreight.Price {
-				cheapestFreight = &carrier
+			if cheapestQuote == nil || carrier.Price < cheapestQuote.Price {
+				cheapestQuote = &carrier
 			}
-			if mostExpensiveFreight == nil || carrier.Price > mostExpensiveFreight.Price {
-				mostExpensiveFreight = &carrier
+			if mostExpensiveQuote == nil || carrier.Price > mostExpensiveQuote.Price {
+				mostExpensiveQuote = &carrier
 			}
 		}
 	}
@@ -40,9 +40,9 @@ func CalculateMetrics(quotes []models.Quote) (map[string]interface{}, error) {
 	}
 
 	result := map[string]interface{}{
-		"carriers":               carrierMetrics,
-		"cheapest_freight":       cheapestFreight,
-		"most_expensive_freight": mostExpensiveFreight,
+		"carriers":             carrierMetrics,
+		"cheapest_quote":       cheapestQuote,
+		"most_expensive_quote": mostExpensiveQuote,
 	}
 
 	return result, nil

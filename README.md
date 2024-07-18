@@ -1,6 +1,7 @@
 # Frete Rápido API
 
 ### Running the application
+
 1. Clone the repository:
 ```sh
   git clone https://github.com/belmadge/freteRapidoTask.git
@@ -14,9 +15,16 @@
    DB_HOST=mysql
    DB_PORT=3306
 ```
+
 3. Build and run the application using Docker Compose:
 ```sh
   docker-compose up --build
 ```
 
-4. To see the API documentation access the directory "docs"
+4. Testes:
+- Para executar os testes, utilize o comando:
+```sh
+  go test ./...
+```
+
+5. To see the API documentation access the directory "doc" in this project

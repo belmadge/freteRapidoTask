@@ -1,6 +1,6 @@
-## API Endpoints
+# API Endpoints
 
-### Create Quote
+## Create Quote
 
 - **URL:** `POST /quote`
 
@@ -73,10 +73,12 @@
 }
 ```
 
-- **Error Response:** In case of an error, an error code will be returned, as established in
-  the [list of codes of this API](https://dev.freterapido.com/common/codigos_de_resposta/).
+- **Error Response:** 
 
-### Get Metrics
+In case of an error, an error code will be returned as established in the [list of codes of this API](https://dev.freterapido.com/common/codigos_de_resposta/).
+
+
+## Get Metrics
 
 - **URL:** `GET /metrics?last_quotes={?}`
 
@@ -111,5 +113,6 @@
 }
 ```
 
-- **Error Response:** In case of an error, an error code will be returned, as established in
-  the [list of codes of this API](https://dev.freterapido.com/common/codigos_de_resposta/).
+- **Error Response:** 
+
+In case of an error, an error code will be returned as established in the [list of codes of this API](https://dev.freterapido.com/common/codigos_de_resposta/).

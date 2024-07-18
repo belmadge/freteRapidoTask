@@ -9,7 +9,6 @@ import (
 
 	"github.com/belmadge/freteRapido/pkg/models"
 	"github.com/belmadge/freteRapido/pkg/utils"
-	"github.com/sirupsen/logrus"
 )
 
 // CreateQuote creates a new quote by sending a request to the Frete Rápido API
@@ -35,14 +34,12 @@ func CreateQuote(input models.QuoteRequest) (*models.QuoteResponse, error) {
 
 	requestBody, err := json.Marshal(payload)
 	if err != nil {
-		logrus.Error("failed to create payload:", err)
 		return nil, err
 	}
 
 	req, err := http.NewRequest("POST", "https://sp.freterapido.com/api/v3/quote/simulate",
 		bytes.NewBuffer(requestBody))
 	if err != nil {
-		logrus.Error("failed to create request:", err)
 		return nil, err
 	}
 
@@ -51,14 +48,12 @@ func CreateQuote(input models.QuoteRequest) (*models.QuoteResponse, error) {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		logrus.Error("failed to send request:", err)
 		return nil, err
 	}
 
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		logrus.Error("failed to get quote from Frete Rápido")
 		return nil, errors.New("failed to get quote from Frete Rápido")
 	}
 
@@ -66,13 +61,11 @@ func CreateQuote(input models.QuoteRequest) (*models.QuoteResponse, error) {
 
 	var apiResponse map[string]interface{}
 	if err := json.NewDecoder(bytes.NewBuffer(bodyBytes)).Decode(&apiResponse); err != nil {
-		logrus.Error("failed to decode response:", err)
 		return nil, err
 	}
 
 	carriers, err := utils.ValidateCarriersFromAPIResponse(apiResponse)
 	if err != nil {
-		logrus.Error("failed to validate carriers:", err)
 		return nil, err
 	}
 

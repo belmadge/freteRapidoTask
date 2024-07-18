@@ -21,8 +21,7 @@
   docker-compose up --build
 ```
 
-4. Testes:
-- Para executar os testes, utilize o comando:
+4. Tests:
 ```sh
   go test ./...
 ```

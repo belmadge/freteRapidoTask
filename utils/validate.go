@@ -111,10 +111,10 @@ func parseDeliveryTime(deliveryTime map[string]interface{}) (int, error) {
 		return int(days), nil
 	}
 	if minutes, ok := deliveryTime["minutes"].(float64); ok {
-		return int(minutes / 1440), nil // Convert minutes to days
+		return int(minutes / 1440), nil
 	}
 	if hours, ok := deliveryTime["hours"].(float64); ok {
-		return int(hours / 24), nil // Convert hours to days
+		return int(hours / 24), nil
 	}
 	return 0, errors.New("missing days, hours, or minutes in delivery_time")
 }

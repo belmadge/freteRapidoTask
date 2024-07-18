@@ -39,20 +39,21 @@ func CreateQuoteHandler(c *gin.Context) {
 		return
 	}
 
-	var carriers []map[string]interface{}
-	for _, carrier := range quoteResponse.Carrier {
-		carrierMap := map[string]interface{}{
-			"name":     carrier.Name,
-			"service":  carrier.Service,
-			"deadline": carrier.Deadline,
-			"price":    carrier.Price,
-		}
-		carriers = append(carriers, carrierMap)
-	}
+	//var carriers []map[string]interface{}
+	//for _, carrier := range quoteResponse.Carrier {
+	//	carrierMap := map[string]interface{}{
+	//		"name":     carrier.Name,
+	//		"service":  carrier.Service,
+	//		"deadline": carrier.Deadline,
+	//		"price":    carrier.Price,
+	//	}
+	//	carriers = append(carriers, carrierMap)
+	//}
+	//
+	//response := map[string]interface{}{
+	//	"carrier": carriers,
+	//}
 
-	response := map[string]interface{}{
-		"carrier": carriers,
-	}
-
-	c.JSON(http.StatusCreated, response)
+	//c.JSON(http.StatusCreated, response)
+	c.JSON(http.StatusCreated, quoteResponse)
 }

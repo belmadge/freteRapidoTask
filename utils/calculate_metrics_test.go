@@ -1,34 +1,52 @@
 package utils
 
 import (
-	"reflect"
 	"testing"
 
 	"github.com/belmadge/freteRapido/domain"
+	"github.com/stretchr/testify/assert"
 )
 
-func TestCalculateMetrics(t *testing.T) {
-	type args struct {
-		quotes []domain.Quote
+func TestCalculateMetrics_Success(t *testing.T) {
+	quotes := []domain.Quote{
+		{
+			Carrier: []domain.Carrier{
+				{Name: "Carrier1", Price: 10},
+				{Name: "Carrier2", Price: 20},
+			},
+		},
+		{
+			Carrier: []domain.Carrier{
+				{Name: "Carrier1", Price: 30},
+				{Name: "Carrier2", Price: 40},
+			},
+		},
 	}
-	tests := []struct {
-		name    string
-		args    args
-		want    map[string]interface{}
-		wantErr bool
-	}{
-		// TODO: Add test cases.
+
+	expected := map[string]interface{}{
+		"carriers": map[string]map[string]float64{
+			"Carrier1": {"count": 2, "total_price": 40, "average_price": 20},
+			"Carrier2": {"count": 2, "total_price": 60, "average_price": 30},
+		},
+		"cheapest_quote":       &domain.Carrier{Name: "Carrier1", Price: 10},
+		"most_expensive_quote": &domain.Carrier{Name: "Carrier2", Price: 40},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := CalculateMetrics(tt.args.quotes)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("CalculateMetrics() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("CalculateMetrics() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
+
+	result, err := CalculateMetrics(quotes)
+
+	assert.Nil(t, err)
+	assert.Equal(t, expected["carriers"], result["carriers"])
+	assert.Equal(t, expected["cheapest_quote"].(*domain.Carrier).Name, result["cheapest_quote"].(*domain.Carrier).Name)
+	assert.Equal(t, expected["cheapest_quote"].(*domain.Carrier).Price, result["cheapest_quote"].(*domain.Carrier).Price)
+	assert.Equal(t, expected["most_expensive_quote"].(*domain.Carrier).Name, result["most_expensive_quote"].(*domain.Carrier).Name)
+	assert.Equal(t, expected["most_expensive_quote"].(*domain.Carrier).Price, result["most_expensive_quote"].(*domain.Carrier).Price)
+}
+
+func TestCalculateMetrics_Error(t *testing.T) {
+	quotes := []domain.Quote{}
+
+	_, err := CalculateMetrics(quotes)
+
+	assert.NotNil(t, err)
+	assert.Equal(t, "no quotes provided", err.Error())
 }

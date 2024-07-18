@@ -7,12 +7,32 @@ import (
 )
 
 func ValidateQuoteInput(input domain.QuoteRequest) error {
-	if input.Dispatchers == nil {
-		return errors.New("recipient zipcode is required")
+	if input.Shipper.RegisteredNumber == "" || input.Shipper.Token == "" || input.Shipper.PlatformCode == "" {
+		return errors.New("shipper information is incomplete")
+	}
+
+	if input.Recipient.Country == "" || input.Recipient.Zipcode == 0 {
+		return errors.New("recipient information is incomplete")
 	}
 
 	if len(input.Dispatchers) == 0 {
-		return errors.New("at least one volume is required")
+		return errors.New("at least one dispatcher is required")
+	}
+
+	for _, dispatcher := range input.Dispatchers {
+		if dispatcher.RegisteredNumber == "" || dispatcher.Zipcode == 0 {
+			return errors.New("dispatcher information is incomplete")
+		}
+
+		if len(dispatcher.Volumes) == 0 {
+			return errors.New("at least one volume is required for each dispatcher")
+		}
+
+		for _, volume := range dispatcher.Volumes {
+			if volume.Category == "" || volume.Amount <= 0 || volume.UnitaryWeight <= 0 || volume.UnitaryPrice <= 0 {
+				return errors.New("volume information is incomplete or invalid")
+			}
+		}
 	}
 
 	return nil
@@ -42,51 +62,59 @@ func ValidateCarriersFromAPIResponse(apiResponse map[string]interface{}) ([]doma
 		}
 
 		for _, o := range offers {
-			offeringMap, ok := o.(map[string]interface{})
-			if !ok {
-				return nil, errors.New("invalid offering format in dispatcher")
+			carrier, err := parseCarrier(o)
+			if err != nil {
+				return nil, err
 			}
-
-			carrierData, ok := offeringMap["carrier"].(map[string]interface{})
-			if !ok {
-				return nil, errors.New("missing carrier in offering")
-			}
-
-			carrierName, nameOk := carrierData["name"].(string)
-			price, priceOk := offeringMap["final_price"].(float64)
-			service, serviceOk := offeringMap["service"].(string)
-			deliveryTime, deliveryTimeOk := offeringMap["delivery_time"].(map[string]interface{})
-
-			var deadline int
-			deadlineOk := false
-
-			if days, daysOk := deliveryTime["days"].(float64); daysOk {
-				deadline = int(days)
-				deadlineOk = true
-			} else if minutes, minutesOk := deliveryTime["minutes"].(float64); minutesOk {
-				deadline = int(minutes / 1440) // Convert minutes to days
-				deadlineOk = true
-			} else if hours, hoursOk := deliveryTime["hours"].(float64); hoursOk {
-				deadline = int(hours / 24) // Convert hours to days
-				deadlineOk = true
-			} else {
-				return nil, errors.New("missing days, hours, or minutes in delivery_time")
-			}
-
-			if !nameOk || !priceOk || !serviceOk || !deliveryTimeOk || !deadlineOk {
-				return nil, errors.New("missing or invalid dispatcher fields in API response")
-			}
-
-			carrier := domain.Carrier{
-				Name:     carrierName,
-				Price:    price,
-				Service:  service,
-				Deadline: deadline,
-			}
-
 			carriers = append(carriers, carrier)
 		}
 	}
 
 	return carriers, nil
+}
+
+func parseCarrier(offer interface{}) (domain.Carrier, error) {
+	offeringMap, ok := offer.(map[string]interface{})
+	if !ok {
+		return domain.Carrier{}, errors.New("invalid offering format in dispatcher")
+	}
+
+	carrierData, ok := offeringMap["carrier"].(map[string]interface{})
+	if !ok {
+		return domain.Carrier{}, errors.New("missing carrier in offering")
+	}
+
+	carrierName, nameOk := carrierData["name"].(string)
+	price, priceOk := offeringMap["final_price"].(float64)
+	service, serviceOk := offeringMap["service"].(string)
+	deliveryTime, deliveryTimeOk := offeringMap["delivery_time"].(map[string]interface{})
+
+	deadline, err := parseDeliveryTime(deliveryTime)
+	if err != nil {
+		return domain.Carrier{}, err
+	}
+
+	if !nameOk || !priceOk || !serviceOk || !deliveryTimeOk {
+		return domain.Carrier{}, errors.New("missing or invalid dispatcher fields in API response")
+	}
+
+	return domain.Carrier{
+		Name:     carrierName,
+		Price:    price,
+		Service:  service,
+		Deadline: deadline,
+	}, nil
+}
+
+func parseDeliveryTime(deliveryTime map[string]interface{}) (int, error) {
+	if days, ok := deliveryTime["days"].(float64); ok {
+		return int(days), nil
+	}
+	if minutes, ok := deliveryTime["minutes"].(float64); ok {
+		return int(minutes / 1440), nil // Convert minutes to days
+	}
+	if hours, ok := deliveryTime["hours"].(float64); ok {
+		return int(hours / 24), nil // Convert hours to days
+	}
+	return 0, errors.New("missing days, hours, or minutes in delivery_time")
 }

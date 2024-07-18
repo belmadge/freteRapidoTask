@@ -3,17 +3,17 @@ package utils
 import (
 	"errors"
 
-	"github.com/belmadge/freteRapido/pkg/models"
+	"github.com/belmadge/freteRapido/domain"
 )
 
-func CalculateMetrics(quotes []models.Quote) (map[string]interface{}, error) {
+func CalculateMetrics(quotes []domain.Quote) (map[string]interface{}, error) {
 	if quotes == nil || len(quotes) == 0 {
 		err := errors.New("no quotes provided")
 		return nil, err
 	}
 
 	carrierMetrics := make(map[string]map[string]float64)
-	var cheapestQuote, mostExpensiveQuote *models.Carrier
+	var cheapestQuote, mostExpensiveQuote *domain.Carrier
 
 	for _, quote := range quotes {
 		for _, carrier := range quote.Carrier {

@@ -1,4 +1,4 @@
-package models
+package domain
 
 type Recipient struct {
 	Type    int    `json:"type"`

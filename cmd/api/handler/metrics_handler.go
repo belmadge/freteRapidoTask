@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/belmadge/freteRapido/pkg/infra/repository/db"
-	"github.com/belmadge/freteRapido/pkg/models"
-	"github.com/belmadge/freteRapido/pkg/utils"
+	"github.com/belmadge/freteRapido/domain"
+	"github.com/belmadge/freteRapido/infra/repository/db"
+	"github.com/belmadge/freteRapido/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -23,7 +23,7 @@ func GetMetricsHandler(c *gin.Context) {
 		lastQuotes = DefaultLastQuotes
 	}
 
-	var quotes []models.Quote
+	var quotes []domain.Quote
 	result := db.DB.Preload("Carrier").Order("created_at desc").Limit(lastQuotes).Find(&quotes)
 	if result.Error != nil {
 		logrus.Error("error fetching quotes: ", result.Error)

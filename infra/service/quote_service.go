@@ -7,12 +7,12 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/belmadge/freteRapido/pkg/models"
-	"github.com/belmadge/freteRapido/pkg/utils"
+	"github.com/belmadge/freteRapido/domain"
+	"github.com/belmadge/freteRapido/utils"
 )
 
 // CreateQuote creates a new quote by sending a request to the Frete Rápido API
-func CreateQuote(input models.QuoteRequest) (*models.QuoteResponse, error) {
+func CreateQuote(input domain.QuoteRequest) (*domain.QuoteResponse, error) {
 	if err := utils.ValidateQuoteInput(input); err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func CreateQuote(input models.QuoteRequest) (*models.QuoteResponse, error) {
 		return nil, err
 	}
 
-	quoteResponse := &models.QuoteResponse{
+	quoteResponse := &domain.QuoteResponse{
 		Carrier: carriers,
 	}
 

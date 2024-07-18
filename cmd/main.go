@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/belmadge/freteRapido/cmd/api/handler"
 	"github.com/belmadge/freteRapido/config"
-	"github.com/belmadge/freteRapido/pkg/handler"
-	"github.com/belmadge/freteRapido/pkg/infra/repository/db"
+	"github.com/belmadge/freteRapido/infra/repository/db"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )

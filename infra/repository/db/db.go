@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/belmadge/freteRapido/config"
-	"github.com/belmadge/freteRapido/pkg/models"
+	"github.com/belmadge/freteRapido/domain"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -35,7 +35,7 @@ func setupDatabaseConnection() {
 }
 
 func autoMigrateModels() {
-	err := DB.AutoMigrate(&models.Quote{}, &models.Carrier{})
+	err := DB.AutoMigrate(&domain.Quote{}, &domain.Carrier{})
 	if err != nil {
 		logrus.Error("failed to auto-migrate database models:", err)
 	}

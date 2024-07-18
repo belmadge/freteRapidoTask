@@ -3,16 +3,16 @@ package handler
 import (
 	"net/http"
 
-	"github.com/belmadge/freteRapido/pkg/infra/repository/db"
-	"github.com/belmadge/freteRapido/pkg/infra/service"
-	"github.com/belmadge/freteRapido/pkg/models"
-	"github.com/belmadge/freteRapido/pkg/utils"
+	"github.com/belmadge/freteRapido/domain"
+	"github.com/belmadge/freteRapido/infra/repository/db"
+	"github.com/belmadge/freteRapido/infra/service"
+	"github.com/belmadge/freteRapido/utils"
 	"github.com/gin-gonic/gin"
 )
 
 // CreateQuoteHandler handles the creation of a new quote
 func CreateQuoteHandler(c *gin.Context) {
-	var input models.QuoteRequest
+	var input domain.QuoteRequest
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -29,7 +29,7 @@ func CreateQuoteHandler(c *gin.Context) {
 		return
 	}
 
-	quote := models.Quote{
+	quote := domain.Quote{
 		Carrier: quoteResponse.Carrier,
 	}
 

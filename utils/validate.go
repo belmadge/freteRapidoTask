@@ -3,10 +3,10 @@ package utils
 import (
 	"errors"
 
-	"github.com/belmadge/freteRapido/pkg/models"
+	"github.com/belmadge/freteRapido/domain"
 )
 
-func ValidateQuoteInput(input models.QuoteRequest) error {
+func ValidateQuoteInput(input domain.QuoteRequest) error {
 	if input.Dispatchers == nil {
 		return errors.New("recipient zipcode is required")
 	}
@@ -18,7 +18,7 @@ func ValidateQuoteInput(input models.QuoteRequest) error {
 	return nil
 }
 
-func ValidateCarriersFromAPIResponse(apiResponse map[string]interface{}) ([]models.Carrier, error) {
+func ValidateCarriersFromAPIResponse(apiResponse map[string]interface{}) ([]domain.Carrier, error) {
 	dispatchersData, ok := apiResponse["dispatchers"]
 	if !ok {
 		return nil, errors.New("invalid dispatchers data from API response")
@@ -29,7 +29,7 @@ func ValidateCarriersFromAPIResponse(apiResponse map[string]interface{}) ([]mode
 		return nil, errors.New("invalid dispatchers list format")
 	}
 
-	var carriers []models.Carrier
+	var carriers []domain.Carrier
 	for _, d := range dispatchersList {
 		dispatcherMap, ok := d.(map[string]interface{})
 		if !ok {
@@ -77,7 +77,7 @@ func ValidateCarriersFromAPIResponse(apiResponse map[string]interface{}) ([]mode
 				return nil, errors.New("missing or invalid dispatcher fields in API response")
 			}
 
-			carrier := models.Carrier{
+			carrier := domain.Carrier{
 				Name:     carrierName,
 				Price:    price,
 				Service:  service,

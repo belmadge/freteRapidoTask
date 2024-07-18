@@ -26,6 +26,7 @@ func setupDatabaseConnection() {
 		config.Config.DBPort,
 		config.Config.DBName,
 	)
+
 	var err error
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

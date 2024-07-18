@@ -58,16 +58,16 @@ func ValidateCarriersFromAPIResponse(apiResponse map[string]interface{}) ([]doma
 			deliveryTime, deliveryTimeOk := offeringMap["delivery_time"].(map[string]interface{})
 
 			var deadline int
-			var deadlineOk bool
+			deadlineOk := false
 
 			if days, daysOk := deliveryTime["days"].(float64); daysOk {
 				deadline = int(days)
 				deadlineOk = true
 			} else if minutes, minutesOk := deliveryTime["minutes"].(float64); minutesOk {
-				deadline = int(minutes / 1440) // Convertendo minutos para dias
+				deadline = int(minutes / 1440) // Convert minutes to days
 				deadlineOk = true
 			} else if hours, hoursOk := deliveryTime["hours"].(float64); hoursOk {
-				deadline = int(hours / 24) // Convertendo horas para dias
+				deadline = int(hours / 24) // Convert hours to days
 				deadlineOk = true
 			} else {
 				return nil, errors.New("missing days, hours, or minutes in delivery_time")

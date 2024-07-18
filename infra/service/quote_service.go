@@ -60,7 +60,7 @@ func CreateQuote(input domain.QuoteRequest) (*domain.QuoteResponse, error) {
 	bodyBytes, _ := io.ReadAll(resp.Body)
 
 	var apiResponse map[string]interface{}
-	if err := json.NewDecoder(bytes.NewBuffer(bodyBytes)).Decode(&apiResponse); err != nil {
+	if err = json.NewDecoder(bytes.NewBuffer(bodyBytes)).Decode(&apiResponse); err != nil {
 		return nil, err
 	}
 
